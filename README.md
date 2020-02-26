@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 # Invest
   
-I have designed and built an Altair 8800 emulator.
+Application to manage an investment Derby database, and generate reports.
 
   
 --------------------------------------------------------------------------------
