@@ -1,0 +1,11 @@
+# Ignore directories:
+/nbproject/private/
+/build/
+/dist/
+/test/
+/p1/
+
+# Ignore files:
+derby.log
+
+# eol

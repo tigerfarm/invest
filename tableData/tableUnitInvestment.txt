@@ -1,0 +1,29 @@
+----------------------------------
+ij> describe unitInvestment;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+ACCID               |VARCHAR  |NULL|NULL|10    |NULL      |20        |NO
+CODEINVESTMENT      |VARCHAR  |NULL|NULL|10    |NULL      |20        |NO
+QUANTITY            |DECIMAL  |2   |10  |8     |NULL      |NULL      |NO
+TRANSTYPE           |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+TRANSDATE           |DATE     |0   |10  |10    |NULL      |NULL      |NO
+TRANSCOST           |DECIMAL  |0   |10  |5     |NULL      |NULL      |NO
+TRANSPRICE          |DECIMAL  |2   |10  |8     |NULL      |NULL      |NO
+
+7 rows selected
+----------------------------------
++ Investments as of: September 23, 2016
+
++ TRANSTYPE: 1:Buy, 2:Buy-Sold, 6:Sell (change 1 to 2 so that the data does not show in the report.
+
+ij> select * from unitInvestment order by accid;
+ACCID     |CODEINVES&|QUANTITY  |TRANSTYPE  |TRANSDATE |TRANS&|TRANSPRICE
+-------------------------------------------------------------------------
+STC-SCHWAB|TWLO      |36        |1          |2020-02-20|0     |125.00
+AOL-IRA   |CASH      |1000.12   |1          |2016-10-06|0     |1.00
+AOL-IRA   |FB        |200       |1          |2016-11-07|7.95  |122.35
+CHASECHECK|CASH      |3000.00   |1          |2010-01-01|0     |1.00
+ETRADE    |CASH      |4000.00   |1          |2010-01-01|0     |1.00
+
+36 rows selected
+----------------------------------
