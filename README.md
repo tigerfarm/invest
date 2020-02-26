@@ -9,7 +9,7 @@ Application to manage an investment Derby database, and generate reports.
 -------------------------------------------
 #### Test creating a test database: p1.
 ````
-cd /Users/dthurston/Projects/invest
+cd /.../Projects/invest
 java -cp lib/derby.jar:lib/derbyclient.jar:lib/derbytools.jar org.apache.derby.tools.ij
 ij> connect 'jdbc:derby:p1;user=tfp;password=tigers;create=true';
 ij> create table derbyTB(num int, addr varchar(40));
@@ -31,37 +31,34 @@ ij> exit;
 
 Initial database setup.
 
-In the programs, for now hardcode the DBDIR variable with the database directory name.
+In the [connection program](src/tfpinvest/dbConnection.java), for now hardcode the DBDIR variable with the database directory name.
 ````
     private String DBDIR = "/.../Projects/invest/investdb";
 ````
 Create the database.
 ````
-    cd /.../Projects/invest
-    java -cp lib/derby.jar:lib/derbyclient.jar:lib/derbytools.jar org.apache.derby.tools.ij
-    ij> connect 'jdbc:derby:investdb;user=tfp;password=tigers;create=true';
-    ij> exit;
+$ cd /.../Projects/invest
+$ java -cp lib/derby.jar:lib/derbyclient.jar:lib/derbytools.jar org.apache.derby.tools.ij
+ij> connect 'jdbc:derby:investdb;user=tfp;password=tigers;create=true';
+ij> exit;
 ````
 Reconnect.
 ````
-    java -cp lib/derby.jar:lib/derbyclient.jar:lib/derbytools.jar org.apache.derby.tools.ij
-    ij> connect 'jdbc:derby:investdb;user=tfp;password=tigers';
---- or ---
-    ij> connect 'jdbc:derby://localhost:1527/investdb;user=tfp;password=tigers';
+$ java -cp lib/derby.jar:lib/derbyclient.jar:lib/derbytools.jar org.apache.derby.tools.ij
+ij> connect 'jdbc:derby:investdb;user=tfp;password=tigers';
 ````
 
 -------------------------------------------
 #### Multi-Connection Setup
 
-Note, when using a file directory derby connection, the connection single user.
-
+Note, when using a file directory derby connection, the connection is single user.
 If connected using filename, with ij, must exit to run another connection program. "disconnect" is not enough.
 https://db.apache.org/derby/papers/DerbyTut/embedded_intro.html
 
 Use a Derby database server to make multiple connections, via the server:
 https://db.apache.org/derby/papers/DerbyTut/ns_intro.html
 ````
-$ export CLASSPATH=/.../Projects/invest/lib/derbytools.jar:/Users/dthurston/Projects/invest/lib/derbynet.jar:.
+$ export CLASSPATH=/.../Projects/invest/lib/derbytools.jar:/.../Projects/invest/lib/derbynet.jar:.
 $ echo $CLASSPATH
 /.../Projects/invest/lib/derbytools.jar:/.../Projects/invest/lib/derbynet.jar:.
 $ java -jar lib/derbyrun.jar server start
