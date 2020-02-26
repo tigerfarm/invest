@@ -1,4 +1,4 @@
-package tfpinvest;
+package invest;
 
 public class tfpInvest {
 

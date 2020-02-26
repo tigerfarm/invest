@@ -1,4 +1,4 @@
-package tfpinvest;
+package invest;
 
 import java.io.DataInputStream;
 import java.io.File;

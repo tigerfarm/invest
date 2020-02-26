@@ -10,7 +10,7 @@
     + "set" should show all the set program values.
     + Parse: opcodes <byte|name> (sort order)
  */
-package tfpinvest;
+package invest;
 
 import java.io.BufferedReader;
 import java.io.File;
