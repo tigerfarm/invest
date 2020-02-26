@@ -24,19 +24,19 @@ public class cli {
     private static final String PROGRAMVERSION = "0.90a";
 
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    private static String sourcedirectoy = "programs";
+    private static String sourcedirectory = "tableData";
 
-    private static final String LISTOPTIONS = "<file|bytes|opcodes|ports>";
-    private static final String SETOPTIONS = "<directory|source|byte|port|ignore";
+    private static final String LISTOPTIONS = "<file|bytes>";
+    private static final String SETOPTIONS = "<directory|source>";
 
     // -------------------------------------------------------------------------
     public static void directoryListing() {
-        System.out.println("+ Directory listing for: " + sourcedirectoy);
+        System.out.println("+ Directory listing for: " + sourcedirectory);
         //
         // Need to use the full directory name.
         String currentDirectory = System.getProperty("user.dir");
         // Subdirectory to the current directory.
-        String theDirectoryName = currentDirectory + "/" + sourcedirectoy;
+        String theDirectoryName = currentDirectory + "/" + sourcedirectory;
         System.out.println("+ Program Directory = " + theDirectoryName);
         File dir = new File(theDirectoryName);
         if (!dir.isDirectory()) {
@@ -83,7 +83,7 @@ public class cli {
         // asmProcessor doList = new asmProcessor();
         String sourceFile = "p1.asm";
         String byteFile = "p1.bin";
-        String fullFilename = sourcedirectoy + "/" + sourceFile;
+        String fullFilename = sourcedirectory + "/" + sourceFile;
         String cmd;
         String cmdP1;
         String cmdP2;
@@ -154,8 +154,8 @@ public class cli {
                     // > file this.asm
                     if (cmdP1.length() > 0) {
                         sourceFile = cmdP1;
-                        if (!sourcedirectoy.equals("")) {
-                            fullFilename = sourcedirectoy + "/" + sourceFile;
+                        if (!sourcedirectory.equals("")) {
+                            fullFilename = sourcedirectory + "/" + sourceFile;
                         }
                     }
                     System.out.println("+ Program source file name: " + sourceFile);
@@ -195,15 +195,15 @@ public class cli {
                         case "directory":
                             if (cmdP2.length() > 0) {
                                 if (cmdP2.equals("\"\"")) {
-                                    sourcedirectoy = "";
+                                    sourcedirectory = "";
                                 } else {
-                                    sourcedirectoy = cmdP2;
+                                    sourcedirectory = cmdP2;
                                 }
                             }
-                            if (sourcedirectoy.equals("")) {
+                            if (sourcedirectory.equals("")) {
                                 System.out.println("+ Program source subdirectoy name not set.");
                             } else {
-                                System.out.println("+ Program source subdirectoy name: " + sourcedirectoy + ".");
+                                System.out.println("+ Program source subdirectoy name: " + sourcedirectory + ".");
                             }
                             break;
                         case "source":
@@ -255,10 +255,10 @@ public class cli {
                         System.out.println("+ Program full file name: " + fullFilename);
                         System.out.println("+ Machine byte code file name: " + byteFile);
                     }
-                    if (sourcedirectoy.equals("")) {
+                    if (sourcedirectory.equals("")) {
                         System.out.println("+ Program source subdirectoy name not set.");
                     } else {
-                        System.out.println("+ Program source subdirectoy name: " + sourcedirectoy + ".");
+                        System.out.println("+ Program source subdirectoy name: " + sourcedirectory + ".");
                     }
                     System.out.println("+ fileout <filename> : Set the machine code file name.");
                     if (!sourceFile.equals("")) {

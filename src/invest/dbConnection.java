@@ -18,7 +18,9 @@ abstract class dbConnection {
     // private static final String DBURL = "jdbc:derby:/.../investdb;user=tfp;password=tigers;";
     private String DBDIR = "//localhost:1527/investdb";
     private String DBURL = "jdbc:derby:" + DBDIR + ";user=tfp;password=tigers;";
-    private String DBDIR_File = "/Users/dthurston/Projects/invest/investdb";
+    // Can use a full directory name,
+    //      private String DBDIR_File = "/.../Projects/invest/investdb";
+    private String DBDIR_File = "investdb";
     private String DBURL_File = "jdbc:derby:" + DBDIR_File + ";user=tfp;password=tigers;";
     
     // jdbc Connection
