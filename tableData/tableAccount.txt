@@ -1,0 +1,27 @@
+----------------------------------
+cd /Users/dthurston/Projects/invest
+java -cp lib/derby.jar:lib/derbyclient.jar:lib/derbytools.jar org.apache.derby.tools.ij
+ij> connect 'jdbc:derby:investdb;user=tfp;password=tigers;';
+
+ij> describe account;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+COMPANYID           |VARCHAR  |NULL|NULL|16    |NULL      |32        |NO
+ACCID               |VARCHAR  |NULL|NULL|10    |NULL      |20        |NO
+OWNER               |VARCHAR  |NULL|NULL|10    |NULL      |20        |NO
+ACCNAME             |VARCHAR  |NULL|NULL|20    |NULL      |40        |NO
+ACCDESCRIPTION      |VARCHAR  |NULL|NULL|30    |NULL      |60        |NO
+
+ij> select COMPANYID,ACCID,OWNER,ACCNAME,ACCDESCRIPTION from account order by companyID, accID;
+COMPANYID       |ACCID     |OWNER     |ACCNAME             |ACCDESCRIPTION
+------------------------------------------------------------------------------------------
++ Start
+ETRADE          |ETRADE    |STACY     |Trading             |Old Netscape account          |
+FIDELITY        |IRA       |STACY     |ORACLE CORPORATION  |IRA                           |
+FIDELITY        |FID-TRADE |STACY     |INDIVIDUAL          |From Oracle/Sun shares (bonus)|
+CHASE           |CHASECHECK|STACY-MAY |Checking            |Checking account              |
+USBANK          |MAYCHECK  |MAY       |Checking            |Checking account              |
+
++ 34567890123456                                            123456789012345678901234567890
+----------------------------------
++ eof

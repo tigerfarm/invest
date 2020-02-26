@@ -1,0 +1,29 @@
+----------------------------------
+ij> -- List table information
+connect 'jdbc:derby:/2016mine/Finance2016/FinanceDB/investdb;user=tfp;password=tigers;';
+ij> describe company;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+COMPANYID           |VARCHAR  |NULL|NULL|16    |NULL      |32        |NO
+COMPANYTYPE         |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+COMPDESCRIPTION     |VARCHAR  |NULL|NULL|30    |NULL      |60        |NO
+COMPURL             |VARCHAR  |NULL|NULL|50    |NULL      |100       |NO
+USERID              |VARCHAR  |NULL|NULL|40    |NULL      |80        |NO
+COMPINFO            |LONG VAR&|NULL|NULL|32700 |NULL      |NULL      |NO
+
+5 rows selected
+ij> select companyID,COMPANYTYPE,compDescription,compUrl,userid,compInfo from company order by companyID;
+COMPANYID       |COMPANYTYPE |COMPDESCRIPTION               |COMPURL                                           |USERID                                  |COMPINFO                      
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
++ Start
+
++ Investment companies
+CHASE           |10         |Chase Bank                    |https://www.chase.com/                                  |abc/def                                 |Joint checking                           
+ETRADE          |10         |ETrade                        |http://etrade.com/                                      |abc/def                                 |Old Netscape Account.                                         
+FIDELITY        |10         |IRAs and Oracle 401K          |https://www.fidelity.com/                               |abc/def                                 |Contact: 800-343-3548                  
+USBANK          |10         |May checking                  |                                                        |abc/def                                 |Account in here                                                                                                   
+Wikipedia       |50         |Wikipedia account             |https://en.wikipedia.org/wiki                           |abc/def                                 | 
+
++ 9 rows selected
+----------------------------------
++ eof
