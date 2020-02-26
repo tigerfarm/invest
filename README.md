@@ -31,9 +31,12 @@ ij> exit;
 
 Initial database setup.
 
-In the [connection program](src/tfpinvest/dbConnection.java), for now hardcode the DBDIR variable with the database directory name.
+Default directory name, is the current user directory (System.getProperty("user.dir")).
+To override with a full directory name,
+in the [connection program](src/tfpinvest/dbConnection.java),
+hardcode the DBDIR_File variable with the database directory name.
 ````
-    private String DBDIR = "/.../Projects/invest/investdb";
+    private String DBDIR_File = "/.../Projects/invest/investdb";
 ````
 Create the database.
 ````
