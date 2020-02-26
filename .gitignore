@@ -3,6 +3,7 @@
 /build/
 /dist/
 /test/
+/investdb/
 /p1/
 
 # Ignore files:
