@@ -3,7 +3,7 @@
 
     From a command prompt, call various Altair 101 assembly functions.    
     To run:
-        $ java -jar asm.jar
+        $ java -jar cli.jar
 
     Next,
     + Directory listing, 3 across.
@@ -13,70 +13,19 @@
 package invest;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 public class cli {
 
     private static final String PROGRAMVERSION = "0.90a";
 
+    textFiles fileProcess = new textFiles();
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private static String sourcedirectory = "tableData";
 
     private static final String LISTOPTIONS = "<file|bytes>";
     private static final String SETOPTIONS = "<directory|source>";
-
-    // -------------------------------------------------------------------------
-    public static void directoryListing() {
-        System.out.println("+ Directory listing for: " + sourcedirectory);
-        //
-        // Need to use the full directory name.
-        String currentDirectory = System.getProperty("user.dir");
-        // Subdirectory to the current directory.
-        String theDirectoryName = currentDirectory + "/" + sourcedirectory;
-        System.out.println("+ Program Directory = " + theDirectoryName);
-        File dir = new File(theDirectoryName);
-        if (!dir.isDirectory()) {
-            System.out.println("-- Error: " + theDirectoryName + " is not a directory...");
-            return;
-        }
-        if (!dir.exists()) {
-            System.out.println("-- Error: " + theDirectoryName + ", directory does not exist...");
-            return;
-        }
-        // Get directory & file info into a list
-        String[] children = dir.list();
-        List fileDirList = new ArrayList();
-        for (int i = 0; i < children.length; i++) {
-            String filename = children[i];
-            // System.out.println("++ filename: " + filename);
-            File theName = new File(theDirectoryName + "/" + filename);
-            if (!theName.isFile()) {
-                // Process directories
-                fileDirList.add(i, "+ Subdirectory: " + filename);
-            } else {
-                // fileDirList.add(i, "+ File: " + filename + " " + formatter.format(new Date(theName.lastModified())) + ", size: " + theName.length() + " bytes");
-                fileDirList.add(i, "++ " + filename);
-            }
-        }
-        // Print List: directories then files
-        for (int i = 0; i < fileDirList.size(); i++) {
-            String item = (String) fileDirList.get(i);
-            if (item.startsWith("+")) {
-                System.out.println(item);
-            }
-        }
-        for (int i = 0; i < fileDirList.size(); i++) {
-            String item = (String) fileDirList.get(i);
-            if (item.startsWith("*")) {
-                System.out.println("    " + item);
-            }
-        }
-        // System.out.println("+ End of list.");
-    }
 
     // -------------------------------------------------------------------------
     public void run() {
@@ -148,7 +97,7 @@ public class cli {
                 case "dir":
                 case "ls":
                     System.out.println("+ -------------------------------------");
-                    directoryListing();
+                    fileProcess.directoryListing();
                     break;
                 case "file":
                     // > file this.asm
@@ -175,7 +124,8 @@ public class cli {
                         case "":
                         case "file":
                             System.out.println("+ -------------------------------------");
-                            System.out.println("+ List program source file: " + sourceFile + ":");
+                            System.out.println("+ List data source file: " + fullFilename + ":");
+                            fileProcess.listlines(fullFilename);
                             break;
                         case "bytes":
                             System.out.println("+ -------------------------------------");
@@ -310,8 +260,8 @@ public class cli {
     public static void main(String[] args) {
         System.out.println("+++ Start investment CLI, version " + PROGRAMVERSION);
         System.out.println("");
-        cli asmProcess = new cli();
-        asmProcess.run();
+        cli cliProcess = new cli();
+        cliProcess.run();
         System.out.println("\n++ Exit.");
     }
 }
