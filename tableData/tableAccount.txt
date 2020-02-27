@@ -21,6 +21,7 @@ FIDELITY        |IRA       |STACY     |ORACLE CORPORATION  |IRA                 
 FIDELITY        |FID-TRADE |STACY     |INDIVIDUAL          |From Oracle/Sun shares (bonus)|
 CHASE           |CHASECHECK|STACY-MAY |Checking            |Checking account              |
 USBANK          |MAYCHECK  |MAY       |Checking            |Checking account              |
+SCHWAB          |STC-SCHWAB|STACY     |Trading             |New work account              |
 
 + 34567890123456                                            123456789012345678901234567890
 ----------------------------------

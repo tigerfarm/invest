@@ -6,9 +6,9 @@
         $ java -jar cli.jar
 
     Next,
-    + Directory listing, 3 across.
-    + "set" should show all the set program values.
-    + Parse: opcodes <byte|name> (sort order)
+    + Create Google Spreadsheet for the stock prices, with the option to download CSV file.
+    + Create dbResetStockData.java which uses data from the above: CSV file.
+    + List investments using the above stock prices.
  */
 package invest;
 
@@ -23,6 +23,16 @@ public class cli {
     textFiles fileProcess = new textFiles();
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private static String sourcedirectory = "tableData";
+
+    private String theResponse;
+    private String theRequest;
+    dbResetAccount dbAccount = new dbResetAccount();
+    dbResetCompany dbCompany = new dbResetCompany();
+    dbResetInvestments dbInvestments = new dbResetInvestments();
+
+    dbListAccount listAccount = new dbListAccount();
+    dbListCompany listCompany = new dbListCompany();
+    dbListInvestments listInvestments = new dbListInvestments();
 
     private static final String LISTOPTIONS = "<file|bytes>";
     private static final String SETOPTIONS = "<directory|source>";
@@ -78,22 +88,6 @@ public class cli {
             // System.out.println("+ Parse, cmd:" + cmd + ":" + cmdP1 + ":" + cmdP2 + ":");
             // System.out.println("+ cmd : " + cmd + ":" + theRest + ".");
             switch (cmd) {
-                case "asm":
-                    System.out.println("+ -------------------------------------");
-                    System.out.println("+ Print and parse the program: " + sourceFile + ":");
-                    break;
-                case "parse":
-                    System.out.println("+ -------------------------------------");
-                    System.out.println("+ Parse the program file: " + sourceFile + ":");
-                    break;
-                case "write":
-                    System.out.println("+ -------------------------------------");
-                    System.out.println("+ Write the program byte array to the file: " + byteFile + ":");
-                    break;
-                case "show":
-                    System.out.println("+ -------------------------------------");
-                    System.out.println("+ Print binary file bytes to screen: " + byteFile + ":");
-                    break;
                 case "dir":
                 case "ls":
                     System.out.println("+ -------------------------------------");
@@ -111,31 +105,72 @@ public class cli {
                     System.out.println("+ Program full file name: " + fullFilename);
                     System.out.println("+ Machine byte code file name: " + byteFile);
                     break;
-                case "fileout":
-                    // > fileout this.bin
-                    if (cmdP1.length() > 0) {
-                        byteFile = cmdP1;
-                    }
-                    System.out.println("+ Machine byte code file name: " + byteFile);
-                    break;
                 // -------------------------------------------------------------
                 case "list":
                     switch (cmdP1) {
-                        case "":
+                        case "a":
+                        case "account":
+                            System.out.println("+ -------------------------------------");
+                            System.out.println("+ List account data.");
+                            theRequest = "";
+                            theResponse = listAccount.runReport(theRequest);
+                            System.out.println("+ listAccount Response <" + theResponse + ">");
+                            break;
+                        case "c":
+                        case "company":
+                            System.out.println("+ -------------------------------------");
+                            System.out.println("+ List company data.");
+                            theRequest = "";
+                            theResponse = listCompany.runReport(theRequest);
+                            System.out.println("+ listCompany Response <" + theResponse + ">");
+                            break;
+                        case "i":
+                        case "investments":
+                            System.out.println("+ -------------------------------------");
+                            System.out.println("+ List investments data.");
+                            theRequest = "";
+                            theResponse = listInvestments.runReport(theRequest);
+                            System.out.println("+ listInvestments response #1\n" + theResponse + "\n: end of theResponse.");
+                            theRequest = "INVTYPE,codeInvestment";
+                            theResponse = listInvestments.runReport(theRequest);
+                            System.out.println("+ listInvestments response #2\n" + theResponse + "\n: end of theResponse.");
+                            break;
                         case "file":
                             System.out.println("+ -------------------------------------");
                             System.out.println("+ List data source file: " + fullFilename + ":");
                             fileProcess.listlines(fullFilename);
                             break;
-                        case "bytes":
-                            System.out.println("+ -------------------------------------");
-                            System.out.println("+ List the parsed byte array to screen.");
-                            break;
-                        case "opcodes":
-                            System.out.println("+ -------------------------------------");
-                            break;
                         default:
                             System.out.println("- Invalid list option." + cmdP1);
+                            break;
+                    }
+                    break;
+                // -------------------------------------------------------------
+                case "load":
+                    switch (cmdP1) {
+                        case "a":
+                        case "account":
+                            System.out.println("+ -------------------------------------");
+                            System.out.println("+ Load account data.");
+                            theResponse = dbAccount.runReset();
+                            System.out.println("+ dbAccount Response <" + theResponse + ">");
+                            break;
+                        case "c":
+                        case "company":
+                            System.out.println("+ -------------------------------------");
+                            System.out.println("+ Load account data.");
+                            theResponse = dbCompany.runReset();
+                            System.out.println("+ dbCompany theResponse <" + theResponse + ">");
+                            break;
+                        case "i":
+                        case "investements":
+                            System.out.println("+ -------------------------------------");
+                            System.out.println("+ Load account data.");
+                            theResponse = dbInvestments.runReset();
+                            System.out.println("+ dbInvestments theResponse <" + theResponse + ">");
+                            break;
+                        default:
+                            System.out.println("- Invalid load option." + cmdP1);
                             break;
                     }
                     break;
@@ -156,31 +191,13 @@ public class cli {
                                 System.out.println("+ Program source subdirectoy name: " + sourcedirectory + ".");
                             }
                             break;
-                        case "source":
-                            if (!cmdP2.equals("")) {
-                                sourceFile = cmdP2;
-                            } else {
-                                System.out.println("+ Program source file name: " + sourceFile);
-                                System.out.println("+ Program full file name: " + fullFilename);
-                            }
-                            break;
-                        case "byte":
-                            if (!cmdP2.equals("")) {
-                                byteFile = cmdP2;
-                            } else {
-                                System.out.println("+ Machine byte code file name: " + byteFile);
-                            }
-                            break;
                         default:
                             System.out.println("- Invalid set option: " + theRest);
                             break;
                     }
                     break;
-                // -------------------------------------------------------------
 
-                case "char":
-                    System.out.println("Character, " + cmdP1 + " ascii value: " + (int) cmdP1.charAt(0));
-                    break;
+                // -------------------------------------------------------------
                 case "clear":
                     // Works from UNIX console.
                     System.out.print("\033[H\033[2J");
@@ -203,43 +220,22 @@ public class cli {
                     if (!sourceFile.equals("")) {
                         System.out.println("+ Program source file name: " + sourceFile);
                         System.out.println("+ Program full file name: " + fullFilename);
-                        System.out.println("+ Machine byte code file name: " + byteFile);
                     }
                     if (sourcedirectory.equals("")) {
                         System.out.println("+ Program source subdirectoy name not set.");
                     } else {
                         System.out.println("+ Program source subdirectoy name: " + sourcedirectory + ".");
                     }
-                    System.out.println("+ fileout <filename> : Set the machine code file name.");
-                    if (!sourceFile.equals("")) {
-                        System.out.println("++ Machine byte code file name: " + byteFile);
-                    }
                     System.out.println("");
                     System.out.println("----------------------");
-                    System.out.println("+ asm                : Parse the program source file and write the machine code bytes to a file.");
-                    System.out.println("+ parse              : Parse the program source file.");
-                    System.out.println("+ write              : Write the machine code bytes to a file.");
-                    System.out.println("+ list               : List the program source file.");
-                    System.out.println("+ list bytes         : List the parsed machine byte code and info.");
-                    System.out.println("+ show               : Print machine code file bytes to screen.");
                     System.out.println("");
                     System.out.println("+ dir|ls             : List files in the set directory.");
                     System.out.println("");
-                    System.out.println("+ list opcodes       : list the opcode information, ordered by the name.");
-                    System.out.println("+ opcodes            : list the opcode information, ordered the same as in the file.");
-                    System.out.println("+ opcode <opcode>    : list an opcode's information.");
-                    System.out.println("+ opcodebytes        : list the opcode data, sorted by value.");
-                    System.out.println("+ opcodenames        : list the opcode data, sorted by name.");
-                    System.out.println("");
                     System.out.println("> list " + LISTOPTIONS);
                     System.out.println("+ list                : List the program source file.");
-                    System.out.println("+ list bytes          : List the parsed machine byte code and info.");
-                    System.out.println("+ list opcodes        : list the opcode information, ordered by the name.");
                     System.out.println("");
                     System.out.println("> set " + SETOPTIONS);
                     System.out.println("+ set directory <program-source-directory>");
-                    System.out.println("+ set source <program-source-filename>");
-                    System.out.println("+ set byte <machine-byte-code-filename>");
                     System.out.println("");
                     System.out.println("+ clear     : Clear screen. Should work on UNIX based consoles, not Windows.");
                     System.out.println("+ exit      : Exit this program.");
