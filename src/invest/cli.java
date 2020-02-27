@@ -6,9 +6,9 @@
         $ java -jar invest.jar
 
     Next,
-    + Set up a production environment.
-    ++ Update company and account information.
-    ++ Go to each of my accounts and record to update investement information.
+    + Update production data,
+    ++ Company and account information.
+    ++ Go to each of my accounts and update investement information.
     + Create Google Spreadsheet for the stock data of the above investements.
     ++ Google Spreadsheet has an option to download the data in a CSV file.
     + Create dbResetStockData.java which uses data from the above: CSV file.
