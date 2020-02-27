@@ -1,12 +1,16 @@
 /*
-    Interactive program to assemble programs into byte code for Processor.ini to run.
+    Interactive investment application.
 
     From a command prompt, call various Altair 101 assembly functions.    
     To run:
-        $ java -jar cli.jar
+        $ java -jar invest.jar
 
     Next,
-    + Create Google Spreadsheet for the stock prices, with the option to download CSV file.
+    + Set up a production environment.
+    ++ Update company and account information.
+    ++ Go to each of my accounts and record to update investement information.
+    + Create Google Spreadsheet for the stock data of the above investements.
+    ++ Google Spreadsheet has an option to download the data in a CSV file.
     + Create dbResetStockData.java which uses data from the above: CSV file.
     + List investments using the above stock prices.
  */
@@ -18,7 +22,8 @@ import java.io.InputStreamReader;
 
 public class cli {
 
-    private static final String PROGRAMVERSION = "0.90a";
+    private static final String PROGRAMVERSION = "0.90b";
+    private static final String programTitle = "Investment application, version " + PROGRAMVERSION;
 
     textFiles fileProcess = new textFiles();
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -40,8 +45,7 @@ public class cli {
     // -------------------------------------------------------------------------
     public void run() {
         // asmProcessor doList = new asmProcessor();
-        String sourceFile = "p1.asm";
-        String byteFile = "p1.bin";
+        String sourceFile = "tableCompany.txt";
         String fullFilename = sourcedirectory + "/" + sourceFile;
         String cmd;
         String cmdP1;
@@ -103,7 +107,6 @@ public class cli {
                     }
                     System.out.println("+ Program source file name: " + sourceFile);
                     System.out.println("+ Program full file name: " + fullFilename);
-                    System.out.println("+ Machine byte code file name: " + byteFile);
                     break;
                 // -------------------------------------------------------------
                 case "list":
@@ -131,9 +134,9 @@ public class cli {
                             theRequest = "";
                             theResponse = listInvestments.runReport(theRequest);
                             System.out.println("+ listInvestments response #1\n" + theResponse + "\n: end of theResponse.");
-                            theRequest = "INVTYPE,codeInvestment";
-                            theResponse = listInvestments.runReport(theRequest);
-                            System.out.println("+ listInvestments response #2\n" + theResponse + "\n: end of theResponse.");
+                            // theRequest = "codeInvestment";
+                            // theResponse = listInvestments.runReport(theRequest);
+                            // System.out.println("+ listInvestments response #2\n" + theResponse + "\n: end of theResponse.");
                             break;
                         case "file":
                             System.out.println("+ -------------------------------------");
@@ -202,7 +205,7 @@ public class cli {
                     // Works from UNIX console.
                     System.out.print("\033[H\033[2J");
                     System.out.flush();
-                    System.out.println("Altair 101 8080/8085 assembler, version " + PROGRAMVERSION);
+                    System.out.println(programTitle);
                     break;
                 case "exit":
                     System.out.println("+ -------------------------------------");
