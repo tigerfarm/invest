@@ -1,18 +1,8 @@
+/*
+    Account data.
+*/
 package invest;
 
-/*
-++ select statement <select account.COMPANYID,ACCID,OWNER,ACCNAME,ACCDESCRIPTION,company.COMPINFO from account,company where account.COMPANYID = company.COMPANYID  order by accid>
-+ rows selected: 5
-+ Order by account id:
-
-int i = 0;
-for (Iterator<String> it = aList.iterator(); it.hasNext();) {
-    String theValue = it.next();
-    String[] rowData = theValue.split(SEPARATOR);
-    aList.set(i, theValue + SEPARATOR + lb)
-    i++;
-}
- */
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -73,6 +63,7 @@ public class dbAccount extends dbConnection {
             i++;
             System.out.println("++ " + i + " " + theValue);
             // String[] rowData = theValue.split(SEPARATOR);
+            // Update list data: aList.set(i, theValue + SEPARATOR + lb)
         }
         System.out.println("+ End of list.");
     }
@@ -157,7 +148,6 @@ public class dbAccount extends dbConnection {
             while (theString != null) {
                 if (!(theString.startsWith("--") || theString.startsWith("+ ") || (theString.trim().compareTo("") == 0))) {
                     System.out.println("+ theString :" + theString + ":");
-                    // ETRADE          |ETRADE    |STACY     |Trading             |Old Netscape account
                     String[] theFields = theString.split("\\|");
                     int i = 0;
                     // System.out.print("+ split > ");
