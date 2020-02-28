@@ -22,21 +22,16 @@ import java.io.InputStreamReader;
 
 public class cli {
 
-    private static final String PROGRAMVERSION = "0.90b";
-    private static final String programTitle = "Investment application, version " + PROGRAMVERSION;
+    private static final String PROGRAMVERSION = "0.90d";
+    private static final String programTitle = "TFP investment application, version " + PROGRAMVERSION;
 
     textFiles fileProcess = new textFiles();
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     private static String sourcedirectory = "tableData";
 
-    private String theResponse;
-    private String theRequest;
     private dbAccount dbAccount = new dbAccount();
-
-    private dbResetCompany dbCompany = new dbResetCompany();
-    private dbResetInvestments dbInvestments = new dbResetInvestments();
-    dbListCompany listCompany = new dbListCompany();
-    dbListInvestments listInvestments = new dbListInvestments();
+    private dbCompany dbCompany = new dbCompany();
+    private dbInvestments dbInvestments = new dbInvestments();
 
     private static final String LISTOPTIONS = "<file|bytes>";
     private static final String SETOPTIONS = "<directory|source>";
@@ -56,6 +51,12 @@ public class cli {
         System.out.println("+ Initialize data lists...");
         if (dbAccount.dbAccount() == 0) {
             System.out.println("- Error, account data not available.");
+        }
+        if (dbCompany.dbCompany() == 0) {
+            System.out.println("- Error, company data not available.");
+        }
+        if (dbInvestments.dbInvestments() == 0) {
+            System.out.println("- Error, investments data not available.");
         }
         
         String thePrompt = "> ";
@@ -119,7 +120,6 @@ public class cli {
                         case "account":
                             System.out.println("+ -------------------------------------");
                             System.out.println("+ List account data.");
-                            theRequest = "";
                             if (dbAccount.getRowCount() > 0) {
                                 dbAccount.listRows();
                             }
@@ -128,20 +128,17 @@ public class cli {
                         case "company":
                             System.out.println("+ -------------------------------------");
                             System.out.println("+ List company data.");
-                            theRequest = "";
-                            theResponse = listCompany.runReport(theRequest);
-                            System.out.println("+ listCompany Response <" + theResponse + ">");
+                            if (dbCompany.getRowCount() > 0) {
+                                dbCompany.listRows();
+                            }
                             break;
                         case "i":
                         case "investments":
                             System.out.println("+ -------------------------------------");
                             System.out.println("+ List investments data.");
-                            theRequest = "";
-                            theResponse = listInvestments.runReport(theRequest);
-                            System.out.println("+ listInvestments response #1\n" + theResponse + "\n: end of theResponse.");
-                            // theRequest = "codeInvestment";
-                            // theResponse = listInvestments.runReport(theRequest);
-                            // System.out.println("+ listInvestments response #2\n" + theResponse + "\n: end of theResponse.");
+                            if (dbInvestments.getRowCount() > 0) {
+                                dbInvestments.listRows();
+                            }
                             break;
                         case "file":
                             System.out.println("+ -------------------------------------");
@@ -166,16 +163,16 @@ public class cli {
                         case "c":
                         case "company":
                             System.out.println("+ -------------------------------------");
-                            System.out.println("+ Load account data.");
-                            theResponse = dbCompany.runReset();
-                            System.out.println("+ dbCompany theResponse <" + theResponse + ">");
+                            System.out.println("+ Load company data.");
+                            dbCompany.runReset();
+                            System.out.println("+ dbCompany rows = " + dbCompany.getRowCount());
                             break;
                         case "i":
-                        case "investements":
+                        case "investments":
                             System.out.println("+ -------------------------------------");
-                            System.out.println("+ Load account data.");
-                            theResponse = dbInvestments.runReset();
-                            System.out.println("+ dbInvestments theResponse <" + theResponse + ">");
+                            System.out.println("+ Load investment data.");
+                            dbInvestments.runReset();
+                            System.out.println("+ dbInvestments rows = " + dbInvestments.getRowCount());
                             break;
                         default:
                             System.out.println("- Invalid load option." + cmdP1);
