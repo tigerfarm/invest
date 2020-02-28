@@ -1,18 +1,34 @@
 /*
     Interactive investment application.
-
-    From a command prompt, call various Altair 101 assembly functions.    
+--------------------------------------------------------------------------------
+    From a command prompt, call various application functions.    
     To run:
         $ java -jar invest.jar
 
+--------------------------------------------------------------------------------
     Next,
+    ---------------
     + Update production data,
     ++ Company and account information.
-    ++ Go to each of my accounts and update investement information.
+    ++ Go to each of account and update investement information.
+    ---------------
     + Create Google Spreadsheet for the stock data of the above investements.
     ++ Google Spreadsheet has an option to download the data in a CSV file.
     + Create dbResetStockData.java which uses data from the above: CSV file.
     + List investments using the above stock prices.
+    ---------------
+    + Create reports.
+
+--------------------------------------------------------------------------------
+    Done,
+    + Add a cli.
+    + Update dbConnection.java to use Derby server or direct file connections.
+    + Create proper classes for each data table.
+    ++ Load the data into a list structure. No longer need to continually reload from the database.
+    ++ Standardized: intialization, directory name, and program structure.
+    ++ Combine list and load for text file.
+    ++ Automatic the initialization of the table.
+    ---------------
  */
 package invest;
 
@@ -22,8 +38,8 @@ import java.io.InputStreamReader;
 
 public class cli {
 
-    private static final String PROGRAMVERSION = "0.90d";
-    private static final String programTitle = "TFP investment application, version " + PROGRAMVERSION;
+    private static final String PROGRAM_VERSION = "0.90d";
+    private static final String PROGRAM_TITLE = "TFP investment application, version " + PROGRAM_VERSION;
 
     textFiles fileProcess = new textFiles();
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -46,7 +62,6 @@ public class cli {
         String cmdP2;
         String theRest;
         int si = 0;
-        int ei = 0;
 
         System.out.println("+ Initialize data lists...");
         if (dbAccount.dbAccount() == 0) {
@@ -207,7 +222,7 @@ public class cli {
                     // Works from UNIX console.
                     System.out.print("\033[H\033[2J");
                     System.out.flush();
-                    System.out.println(programTitle);
+                    System.out.println(PROGRAM_TITLE);
                     break;
                 case "exit":
                     System.out.println("+ -------------------------------------");
@@ -217,7 +232,7 @@ public class cli {
                 // -------------------------------------------------------------
                 case "help":
                     System.out.println("---------------------------------------");
-                    System.out.println("Investment application, version " + PROGRAMVERSION);
+                    System.out.println("Investment application, version " + PROGRAM_VERSION);
                     System.out.println("");
                     System.out.println("Help document,");
                     System.out.println("----------------------");
@@ -260,7 +275,7 @@ public class cli {
 
     public static void main(String[] args) {
         System.out.println("+++ Start investment CLI.");
-        System.out.println("+ " + programTitle);
+        System.out.println("+ " + PROGRAM_TITLE);
         System.out.println("");
         cli cliProcess = new cli();
         cliProcess.run();
