@@ -31,11 +31,10 @@ public class cli {
 
     private String theResponse;
     private String theRequest;
-    dbResetAccount dbAccount = new dbResetAccount();
-    dbResetCompany dbCompany = new dbResetCompany();
-    dbResetInvestments dbInvestments = new dbResetInvestments();
+    private dbAccount dbAccount = new dbAccount();
 
-    dbListAccount listAccount = new dbListAccount();
+    private dbResetCompany dbCompany = new dbResetCompany();
+    private dbResetInvestments dbInvestments = new dbResetInvestments();
     dbListCompany listCompany = new dbListCompany();
     dbListInvestments listInvestments = new dbListInvestments();
 
@@ -54,6 +53,10 @@ public class cli {
         int si = 0;
         int ei = 0;
 
+        if (dbAccount.dbAccount() == 0) {
+            System.out.println("- Error, account data not available.");
+        }
+        
         String thePrompt = "> ";
         System.out.print("+ Enter 'exit' to exit. 'help' to get a command listing.");
         String consoleInLine = "";
@@ -116,8 +119,9 @@ public class cli {
                             System.out.println("+ -------------------------------------");
                             System.out.println("+ List account data.");
                             theRequest = "";
-                            theResponse = listAccount.runReport(theRequest);
-                            System.out.println("+ listAccount Response <" + theResponse + ">");
+                            if (dbAccount.getRowCount() > 0) {
+                                dbAccount.listRows();
+                            }
                             break;
                         case "c":
                         case "company":
@@ -155,8 +159,8 @@ public class cli {
                         case "account":
                             System.out.println("+ -------------------------------------");
                             System.out.println("+ Load account data.");
-                            theResponse = dbAccount.runReset();
-                            System.out.println("+ dbAccount Response <" + theResponse + ">");
+                            dbAccount.runReset();
+                            System.out.println("+ dbAccount rows = " + dbAccount.getRowCount());
                             break;
                         case "c":
                         case "company":
@@ -257,7 +261,8 @@ public class cli {
     }
 
     public static void main(String[] args) {
-        System.out.println("+++ Start investment CLI, version " + PROGRAMVERSION);
+        System.out.println("+++ Start investment CLI.");
+        System.out.println("+ " + programTitle);
         System.out.println("");
         cli cliProcess = new cli();
         cliProcess.run();
