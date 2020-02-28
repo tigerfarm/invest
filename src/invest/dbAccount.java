@@ -42,18 +42,20 @@ public class dbAccount extends dbConnection {
     private final String SEPARATOR = "|";
 
     public int dbAccount() {
-        System.out.println("+ Initialize account data.");
+        // System.out.println("+ Initialize account data.");
         selectRows("");
         if (rowCount == 0) {
             runReset();
         }
+        // System.out.println("+ Account data rows: " + rowCount);
         return rowCount;
     }
 
     public int runReset() {
         if (loadTable() > 0) {
+            // Force reloading the list in selectRows with an empty aList.
+            rowCount = 0;
             aList.clear();
-            rowCount = 0;   // Force reloading the list.
             selectRows("");
         }
         return rowCount;
@@ -75,7 +77,7 @@ public class dbAccount extends dbConnection {
         System.out.println("+ End of list.");
     }
 
-    public int selectRows(String theOrderBy) {
+    private int selectRows(String theOrderBy) {
         if (rowCount > 0) {
             // Only load once.
             return rowCount;
@@ -98,7 +100,7 @@ public class dbAccount extends dbConnection {
                 + " from " + tableName + ",company"
                 + " where account.COMPANYID = company.COMPANYID "
                 + theOrderByClause;
-        System.out.println("++ select statement <" + aSelect + ">");
+        // System.out.println("++ select statement <" + aSelect + ">");
         try {
             stmt = conn.createStatement();
             ResultSet results = stmt.executeQuery(aSelect);
@@ -112,7 +114,7 @@ public class dbAccount extends dbConnection {
                         + SEPARATOR + results.getString("COMPINFO");
                 aList.add(dataRow);
             }
-            System.out.println("+ rows selected: " + rowCount);
+            // System.out.println("+ rows selected: " + rowCount);
             results.close();
             stmt.close();
         } catch (SQLException sqlExcept) {
@@ -249,7 +251,9 @@ public class dbAccount extends dbConnection {
         System.out.println("+++ Start, Date today <" + theDateToday + ">");
 
         dbAccount TfpInvest = new dbAccount();
-        System.out.println("+ Number of rows = " + TfpInvest.runReset());
+        if (TfpInvest.dbAccount()>0) {
+            TfpInvest.listRows();
+        }
 
         System.out.println("+++ Exit.");
     }

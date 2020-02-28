@@ -20,8 +20,8 @@ abstract class dbConnection {
     private String DBURL = "jdbc:derby:" + DBDIR + ";user=tfp;password=tigers;";
     // Can use a full directory name,
     //      private String DBDIR_File = "/.../Projects/invest/investdb";
-    private String DBDIR_File = "investdb";
-    private String DBURL_File = "jdbc:derby:" + DBDIR_File + ";user=tfp;password=tigers;";
+    private final String DBDIR_File = "investdb";
+    private final String DBURL_File = "jdbc:derby:" + DBDIR_File + ";user=tfp;password=tigers;";
     
     // jdbc Connection
     private Connection conn = null;
@@ -55,23 +55,22 @@ abstract class dbConnection {
         // First, try the Derby server.
         // If the Derby server isn't available, try using a direct file connection.
         boolean isConnected = false;
-        System.out.println("++ createConnection to: " + DBURL);
+        // System.out.println("++ createConnection to: " + DBURL);
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
             conn = DriverManager.getConnection(DBURL);
             isConnected = true;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException except) {
-            System.out.println("- createConnection failed.");
+            // System.out.println("- createConnection failed.");
             // except.printStackTrace();
         }
         if (isConnected) {
             return conn;
         }
-        System.out.println("++ createConnection to: " + DBURL_File);
+        // System.out.println("++ createConnection to: " + DBURL_File);
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
             conn = DriverManager.getConnection(DBURL_File);
-            isConnected = true;
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException except) {
             System.out.println("- createConnection failed.");
             return null;

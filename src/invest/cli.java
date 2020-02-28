@@ -53,6 +53,7 @@ public class cli {
         int si = 0;
         int ei = 0;
 
+        System.out.println("+ Initialize data lists...");
         if (dbAccount.dbAccount() == 0) {
             System.out.println("- Error, account data not available.");
         }
