@@ -1,5 +1,5 @@
 /*
-    Account data.
+    Investment Unit data.
 */
 package invest;
 
@@ -32,12 +32,12 @@ public class dbInvestments extends dbConnection {
     private final String SEPARATOR = "|";
 
     public int dbInvestments() {
-        // System.out.println("+ Initialize account data.");
+        // System.out.println("+ Initialize Investment Unit data.");
         selectRows("");
         if (rowCount == 0) {
             runReset();
         }
-        // System.out.println("+ Account data rows: " + rowCount);
+        // System.out.println("+ Investment Unit data rows: " + rowCount);
         return rowCount;
     }
 
@@ -117,7 +117,7 @@ public class dbInvestments extends dbConnection {
     }
 
     // -------------------------------------------------------------------------
-    // Load a database table with account data from a text file.
+    // Load a database table with data from a text file.
     private int loadTable() {
         rowCount = 0;
         if (conn == null) {
@@ -243,7 +243,11 @@ public class dbInvestments extends dbConnection {
         if (TfpInvest.dbInvestments()>0) {
             TfpInvest.listRows();
         }
-
+        TfpInvest.dbDropTable();
+        if (TfpInvest.dbInvestments()>0) {
+            TfpInvest.listRows();
+        }
+        
         System.out.println("+++ Exit.");
     }
 

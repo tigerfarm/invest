@@ -246,6 +246,10 @@ public class dbCompany extends dbConnection {
         if (TfpInvest.dbCompany()>0) {
             TfpInvest.listRows();
         }
+        TfpInvest.dbDropTable();
+        if (TfpInvest.dbCompany()>0) {
+            TfpInvest.listRows();
+        }
 
         System.out.println("+++ Exit.");
     }
