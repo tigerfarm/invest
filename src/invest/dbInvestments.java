@@ -110,7 +110,8 @@ public class dbInvestments extends dbConnection {
             results.close();
             stmt.close();
         } catch (SQLException sqlExcept) {
-            sqlExcept.printStackTrace();
+            System.out.println("- sqlExcept: " + sqlExcept.getMessage());
+            // sqlExcept.printStackTrace();
         }
         return rowCount;
     }

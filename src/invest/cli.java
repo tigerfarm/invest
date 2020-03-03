@@ -8,14 +8,10 @@
 --------------------------------------------------------------------------------
     Next,
     ---------------
-    + Update production data,
-    ++ Company and account information.
-    ++ Go to each of account and update investement information.
-    ---------------
-    + Create Google Spreadsheet for the stock data of the above investements.
+    + Create Google Spreadsheet for the stock data.
     ++ Google Spreadsheet has an option to download the data in a CSV file.
     + Create dbResetStockData.java which uses data from the above: CSV file.
-    + List investments using the above stock prices.
+    + Join investment data with the above stock prices to generate an investment reports.
     ---------------
     + Create reports.
 
@@ -26,8 +22,8 @@
     + Create proper classes for each data table.
     ++ Load the data into a list structure. No longer need to continually reload from the database.
     ++ Standardized: intialization, directory name, and program structure.
-    ++ Combine list and load for text file.
-    ++ Automatic the initialization of the table.
+    ++ Combines, list and load, for a data text file.
+    ++ Automate the initialization of the tables.
     ---------------
  */
 package invest;
@@ -38,7 +34,7 @@ import java.io.InputStreamReader;
 
 public class cli {
 
-    private static final String PROGRAM_VERSION = "0.90d";
+    private static final String PROGRAM_VERSION = "0.90e";
     private static final String PROGRAM_TITLE = "TFP investment application, version " + PROGRAM_VERSION;
 
     textFiles fileProcess = new textFiles();

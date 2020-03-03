@@ -1,5 +1,5 @@
 /*
-    Account data.
+    Payment data.
 */
 package invest;
 
@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class dbAccount extends dbConnection {
+public class dbPayment extends dbConnection {
 
     private static Connection conn = null;
     private static Statement stmt = null;
@@ -31,13 +31,13 @@ public class dbAccount extends dbConnection {
     private final static List<String> aList = new ArrayList<>();
     private final String SEPARATOR = "|";
 
-    public int dbAccount() {
-        // System.out.println("+ Initialize account data.");
+    public int dbPayment() {
+        // System.out.println("+ Initialize Payment data.");
         selectRows("");
         if (rowCount == 0) {
             runReset();
         }
-        // System.out.println("+ Account data rows: " + rowCount);
+        // System.out.println("+ Payment data rows: " + rowCount);
         return rowCount;
     }
 
@@ -80,33 +80,37 @@ public class dbAccount extends dbConnection {
                 return rowCount;
             }
         }
-        String tableName = "account";
+        String tableName = "payment";
         String theOrderByClause = " order by ";
         if (theOrderBy.compareTo("") == 0) {
-            theOrderByClause += "companyid, owner, accID";
+            theOrderByClause += "paymentID";
         } else {
             theOrderByClause += theOrderBy;
         }
-        String aSelect = "select account.COMPANYID,ACCID,OWNER,ACCNAME,ACCDESCRIPTION,company.COMPINFO"
-                + " from " + tableName + ",company"
-                + " where account.COMPANYID = company.COMPANYID "
+        String aSelect = "select *"
+                + " from " + tableName
+                // + " where account.COMPANYID = company.COMPANYID "
                 + theOrderByClause;
         // System.out.println("++ select statement <" + aSelect + ">");
         try {
             stmt = conn.createStatement();
-            ResultSet results = stmt.executeQuery(aSelect);
-            while (results.next()) {
-                rowCount++;
-                String dataRow = results.getString("companyID")
-                        + SEPARATOR + results.getString("owner")
-                        + SEPARATOR + results.getString("accID")
-                        + SEPARATOR + results.getString("accName")
-                        + SEPARATOR + results.getString("accDescription")
-                        + SEPARATOR + results.getString("COMPINFO");
-                aList.add(dataRow);
+            try (ResultSet results = stmt.executeQuery(aSelect)) {
+                while (results.next()) {
+                    rowCount++;
+                    String dataRow = results.getString("paymentID")
+                            + SEPARATOR + results.getString("PAYMENTTYPE")
+                            + SEPARATOR + results.getString("FREQUENCY")
+                            + SEPARATOR + results.getString("DUEDAY")
+                            + SEPARATOR + results.getString("PAYDAY")
+                            + SEPARATOR + results.getString("PAID")
+                            + SEPARATOR + results.getString("BALANCE")
+                            + SEPARATOR + results.getString("COMPANYNAME")
+                            + SEPARATOR + results.getString("PHONE")
+                            + SEPARATOR + results.getString("NOTE");
+                    aList.add(dataRow);
+                }
+                // System.out.println("+ rows selected: " + rowCount);
             }
-            // System.out.println("+ rows selected: " + rowCount);
-            results.close();
             stmt.close();
         } catch (SQLException sqlExcept) {
             System.out.println("- sqlExcept: " + sqlExcept.getMessage());
@@ -116,7 +120,7 @@ public class dbAccount extends dbConnection {
     }
 
     // -------------------------------------------------------------------------
-    // Load a database table with account data from a text file.
+    // Load a database table with data from a text file.
     private int loadTable() {
         rowCount = 0;
         if (conn == null) {
@@ -126,7 +130,7 @@ public class dbAccount extends dbConnection {
                 return rowCount;
             }
         }
-        String theReadFilename = getDbTextDIR() + "tableAccount.txt";
+        String theReadFilename = getDbTextDIR() + "tablePayment.txt";
         try {
             dbDropTable();
             dbCreateTable();
@@ -157,13 +161,13 @@ public class dbAccount extends dbConnection {
                     // }
                     // System.out.println("");
                     String theLast = "";
-                    if (theFields.length < 5) {
+                    if (theFields.length < 10) {
                         theLast = "";
                     } else {
-                        theLast = theFields[4].trim();
+                        theLast = theFields[9].trim();
                     }
                     i = 0;
-                    rowCount += dbInsertRow(theFields[i++].trim(), theFields[i++].trim(), theFields[i++].trim(), theFields[i++].trim(), theLast);
+                    rowCount += dbInsertRow(theFields[i++].trim(), theFields[i++].trim(), theFields[i++].trim(), theFields[i++].trim(), theFields[i++].trim(), theFields[i++].trim(), theFields[i++].trim(), theFields[i++].trim(), theFields[i++].trim(), theLast);
                 }
                 theString = pin.readLine();
             }
@@ -178,7 +182,7 @@ public class dbAccount extends dbConnection {
 
     private void dbDropTable() {
         try {
-            String anSqlStatement = "DROP TABLE account";
+            String anSqlStatement = "DROP TABLE payment";
             System.out.println("++ dbDropTable <" + anSqlStatement + ">");
             stmt = conn.createStatement();
             int stmtCount = stmt.executeUpdate(anSqlStatement);
@@ -193,12 +197,19 @@ public class dbAccount extends dbConnection {
     private int dbCreateTable() {
         int stmtCount = 0;
         try {
-            String anSqlStatement = "CREATE TABLE account ("
-                    + "accID           VARCHAR(10)    NOT NULL,"
-                    + "companyID       VARCHAR(16)    NOT NULL,"
-                    + "owner           VARCHAR(10)    NOT NULL,"
-                    + "accName         VARCHAR(20)    NOT NULL,"
-                    + "accDescription  VARCHAR(30)    NOT NULL"
+            // 1234567890123456|12345678901|123456789|123456|123456|12345678|12345678|12345678901234567890123456789012345678|1234567890123456|1234567890...
+            // PAYMENTID       |PAYMENTTYPE|FREQUENCY|DUEDAY|PAYDAY|PAID    |BALANCE |COMPANYNAME                           |PHONE           ||NOTE
+            String anSqlStatement = "CREATE TABLE payment ("
+                    + "PAYMENTID    VARCHAR(16)    NOT NULL"
+                    + ",PAYMENTTYPE  VARCHAR(12)    NOT NULL"
+                    + ",FREQUENCY    VARCHAR( 9)    NOT NULL"
+                    + ",DUEDAY       VARCHAR( 6)    NOT NULL"
+                    + ",PAYDAY       VARCHAR( 6)"
+                    + ",PAID         VARCHAR( 8)"
+                    + ",BALANCE      VARCHAR( 8)"
+                    + ",COMPANYNAME  VARCHAR(38)    NOT NULL"
+                    + ",PHONE        VARCHAR(16)"
+                    + ",NOTE         VARCHAR(80)"
                     + ")";
             System.out.println("++ dbCreateTable <" + anSqlStatement + ">");
             stmt = conn.createStatement();
@@ -212,17 +223,22 @@ public class dbAccount extends dbConnection {
         return stmtCount;
     }
 
-    private int dbInsertRow(String f1, String f2, String f3, String f4, String f5) {
+    private int dbInsertRow(String f1, String f2, String f3, String f4, String f5, String f6, String f7, String f8, String f9, String f10) {
         int stmtCount = 0;
         try {
-            String anSqlStatement = "insert into account"
-                    + " (COMPANYID,ACCID,OWNER,ACCNAME,ACCDESCRIPTION)"
+            String anSqlStatement = "insert into payment"
+                    + " (PAYMENTID,PAYMENTTYPE,FREQUENCY,DUEDAY,PAYDAY,PAID,BALANCE,COMPANYNAME,PHONE,NOTE)"
                     + " values ("
                     + "'" + f1 + "'"
                     + ",'" + f2 + "'"
                     + ",'" + f3 + "'"
                     + ",'" + f4 + "'"
                     + ",'" + f5 + "'"
+                    + ",'" + f6 + "'"
+                    + ",'" + f7 + "'"
+                    + ",'" + f8 + "'"
+                    + ",'" + f9 + "'"
+                    + ",'" + f10 + "'"
                     + ")";
             System.out.println("++ dbInsertRow <" + anSqlStatement + ">");
             stmt = conn.createStatement();
@@ -241,8 +257,8 @@ public class dbAccount extends dbConnection {
         theDateToday = formatter.format(new Date());
         System.out.println("+++ Start, Date today <" + theDateToday + ">");
 
-        dbAccount TfpInvest = new dbAccount();
-        if (TfpInvest.dbAccount()>0) {
+        dbPayment TfpInvest = new dbPayment();
+        if (TfpInvest.dbPayment()>0) {
             TfpInvest.listRows();
         }
 

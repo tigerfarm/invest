@@ -1,0 +1,33 @@
+----------------------------------
+ij> -- List table information
+connect 'jdbc:derby:/2016mine/Finance2016/FinanceDB/investdb;user=tfp;password=tigers;';
+ij> describe payment;
+COLUMN_NAME         |TYPE_NAME|DEC&|NUM&|COLUM&|COLUMN_DEF|CHAR_OCTE&|IS_NULL&
+------------------------------------------------------------------------------
+PAYMENTID           |VARCHAR  |NULL|NULL|16    |NULL      |32        |NO
+PAYMENTTYPE         |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+COMPANYNAME         |VARCHAR  |NULL|NULL|20    |NULL      |40        |NO
+PHONE1TYPE          |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+PHONE1              |VARCHAR  |NULL|NULL|16    |NULL      |32        |NO
+PHONE2TYPE          |INTEGER  |0   |10  |10    |NULL      |NULL      |NO
+PHONE2              |VARCHAR  |NULL|NULL|16    |NULL      |32        |NO
+NOTE                |LONG VAR&|NULL|NULL|32700 |NULL      |NULL      |NO
+
+8 rows selected
+ij> select * from payment order by paymentID;
+PAYMENTID       |PAYMENTTYPE|FREQUENCY|DUEDAY|PAYDAY|PAID    |BALANCE |COMPANYNAME                           |PHONE           |NOTE
+-------------------------------------------------------------------------------------------------------------------------      12345678901234567890123456789012345678901234567890123456789012345678901234567890
++ Start
++ Balance in Chase $780 Feb/23
+
+PG&E:GAS        |CHASE      |MONTHLY  |12    |0     |0       |8       |PG&E                                  |                |Chase bill name: Gas company
+CHASE CARD      |CHASE      |MONTHLY  |20    |25    |123.45  |100.00  |CHASE CARD                            |                |I paid Jan.25th.
+
+HOUSE-INSURANCE |CHECK      |MAR & SEP|01    |      |        |12.15   |ABC INSURANCE                         |                |Balance due: Mar.2017. SHOULD CHECK HAVING GIECO AND LOWERING THE RATE.
+AAA             |CHECK      |APR      |08    |      |        |75.00   |AAA membership                        |                |
+
+CSD-WATER&GARBAG|CHASE-BILLP|MONTHLY  |18    |15    |180.00  |-123    |SEVERN TRENT SERVICES-GULF MUD REGION |                |Mountain House CSD: Water, sewer, garbage - Chase bill name: WATER & GARBAGE
+MID-ELECTRIC    |CHASE-BILLP|MONTHLY  |23    |17    |180.00  |-56.78  |MODESTO IRRIGATION DISTRICT (ELECTRIC)|                |Next monthly payment adjusted for the credit
+
+----------------------------------
++ eof
