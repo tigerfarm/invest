@@ -245,10 +245,7 @@ public class dbAccount extends dbConnection {
         if (TfpInvest.dbAccount()>0) {
             TfpInvest.listRows();
         }
-        TfpInvest.dbDropTable();
-        if (TfpInvest.dbAccount()>0) {
-            TfpInvest.listRows();
-        }
+        TfpInvest.runReset();
 
         System.out.println("+++ Exit.");
     }

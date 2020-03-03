@@ -261,10 +261,7 @@ public class dbPayment extends dbConnection {
         if (TfpInvest.dbPayment()>0) {
             TfpInvest.listRows();
         }
-        TfpInvest.dbDropTable();
-        if (TfpInvest.dbPayment()>0) {
-            TfpInvest.listRows();
-        }
+        TfpInvest.runReset();
 
         System.out.println("+++ Exit.");
     }

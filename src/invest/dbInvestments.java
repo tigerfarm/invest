@@ -243,10 +243,7 @@ public class dbInvestments extends dbConnection {
         if (TfpInvest.dbInvestments()>0) {
             TfpInvest.listRows();
         }
-        TfpInvest.dbDropTable();
-        if (TfpInvest.dbInvestments()>0) {
-            TfpInvest.listRows();
-        }
+        TfpInvest.runReset();
         
         System.out.println("+++ Exit.");
     }
