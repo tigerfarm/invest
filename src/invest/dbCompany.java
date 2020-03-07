@@ -1,6 +1,6 @@
 /*
     Company data.
-*/
+ */
 package invest;
 
 import java.io.DataInputStream;
@@ -61,9 +61,22 @@ public class dbCompany extends dbConnection {
         for (Iterator<String> it = aList.iterator(); it.hasNext();) {
             String theValue = it.next();
             i++;
-            System.out.println("++ " + i + " " + theValue);
-            // String[] rowData = theValue.split(SEPARATOR);
-            // Update list data: aList.set(i, theValue + SEPARATOR + lb)
+            System.out.println("++ " + i + ", " + theValue);
+        }
+        System.out.println("+ End of list.");
+    }
+
+    public void listRows(String aType) {
+        System.out.println("+ List the row data for type: " + aType);
+        int i = 0;
+        for (Iterator<String> it = aList.iterator(); it.hasNext();) {
+            String theValue = it.next();
+            String[] rowData = theValue.split("\\|");    // Add "\\" because split using regular expressions.
+            if (rowData[1].equals(aType)) {
+                // ETRADE|10|ETrade|http://etrade.com/|abc/def|Old Netscape Account.
+                i++;
+                System.out.println("++ " + i + " " + rowData[1] + ", " + theValue);
+            }
         }
         System.out.println("+ End of list.");
     }
@@ -243,10 +256,11 @@ public class dbCompany extends dbConnection {
         System.out.println("+++ Start, Date today <" + theDateToday + ">");
 
         dbCompany TfpInvest = new dbCompany();
-        if (TfpInvest.dbCompany()>0) {
+        if (TfpInvest.dbCompany() > 0) {
+            TfpInvest.listRows("10");
             TfpInvest.listRows();
         }
-        TfpInvest.runReset();
+        // TfpInvest.runReset();
 
         System.out.println("+++ Exit.");
     }

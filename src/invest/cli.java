@@ -73,7 +73,7 @@ public class cli {
         if (dbPayment.dbPayment() == 0) {
             System.out.println("- Error, payments data not available.");
         }
-        
+
         String thePrompt = "> ";
         System.out.print("+ Enter 'exit' to exit. 'help' to get a command listing.");
         String consoleInLine = "";
@@ -144,7 +144,11 @@ public class cli {
                             System.out.println("+ -------------------------------------");
                             System.out.println("+ List company data.");
                             if (dbCompany.getRowCount() > 0) {
-                                dbCompany.listRows();
+                                if (cmdP2.equals("")) {
+                                    dbCompany.listRows();
+                                } else {
+                                    dbCompany.listRows(cmdP2);
+                                }
                             }
                             break;
                         case "i":
