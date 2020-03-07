@@ -83,7 +83,7 @@ public class dbCompany extends dbConnection {
         String tableName = "company";
         String theOrderByClause = " order by ";
         if (theOrderBy.compareTo("") == 0) {
-            theOrderByClause += "companyType, companyid";
+            theOrderByClause += "companyType, compDescription";
         } else {
             theOrderByClause += theOrderBy;
         }

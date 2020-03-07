@@ -43,9 +43,10 @@ public class cli {
 
     private dbAccount dbAccount = new dbAccount();
     private dbCompany dbCompany = new dbCompany();
-    private dbInvestments dbInvestments = new dbInvestments();
+    private dbInvestment dbInvestment = new dbInvestment();
+    private dbPayment dbPayment = new dbPayment();
 
-    private static final String LISTOPTIONS = "<file|bytes>";
+    private static final String LISTOPTIONS = "<account|company|investments|payments|file>";
     private static final String SETOPTIONS = "<directory|source>";
 
     // -------------------------------------------------------------------------
@@ -66,8 +67,11 @@ public class cli {
         if (dbCompany.dbCompany() == 0) {
             System.out.println("- Error, company data not available.");
         }
-        if (dbInvestments.dbInvestments() == 0) {
+        if (dbInvestment.dbInvestment() == 0) {
             System.out.println("- Error, investments data not available.");
+        }
+        if (dbPayment.dbPayment() == 0) {
+            System.out.println("- Error, payments data not available.");
         }
         
         String thePrompt = "> ";
@@ -147,8 +151,16 @@ public class cli {
                         case "investments":
                             System.out.println("+ -------------------------------------");
                             System.out.println("+ List investments data.");
-                            if (dbInvestments.getRowCount() > 0) {
-                                dbInvestments.listRows();
+                            if (dbInvestment.getRowCount() > 0) {
+                                dbInvestment.listRows();
+                            }
+                            break;
+                        case "p":
+                        case "payments":
+                            System.out.println("+ -------------------------------------");
+                            System.out.println("+ List payments data.");
+                            if (dbPayment.getRowCount() > 0) {
+                                dbPayment.listRows();
                             }
                             break;
                         case "file":
@@ -182,8 +194,8 @@ public class cli {
                         case "investments":
                             System.out.println("+ -------------------------------------");
                             System.out.println("+ Load investment data.");
-                            dbInvestments.runReset();
-                            System.out.println("+ dbInvestments rows = " + dbInvestments.getRowCount());
+                            dbInvestment.runReset();
+                            System.out.println("+ dbInvestment rows = " + dbInvestment.getRowCount());
                             break;
                         default:
                             System.out.println("- Invalid load option." + cmdP1);

@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-public class dbInvestments extends dbConnection {
+public class dbInvestment extends dbConnection {
 
     private static Connection conn = null;
     private static Statement stmt = null;
@@ -31,7 +31,7 @@ public class dbInvestments extends dbConnection {
     private final static List<String> aList = new ArrayList<>();
     private final String SEPARATOR = "|";
 
-    public int dbInvestments() {
+    public int dbInvestment() {
         // System.out.println("+ Initialize Investment Unit data.");
         selectRows("");
         if (rowCount == 0) {
@@ -239,8 +239,8 @@ public class dbInvestments extends dbConnection {
         theDateToday = formatter.format(new Date());
         System.out.println("+++ Start, Date today <" + theDateToday + ">");
 
-        dbInvestments TfpInvest = new dbInvestments();
-        if (TfpInvest.dbInvestments()>0) {
+        dbInvestment TfpInvest = new dbInvestment();
+        if (TfpInvest.dbInvestment()>0) {
             TfpInvest.listRows();
         }
         TfpInvest.runReset();
